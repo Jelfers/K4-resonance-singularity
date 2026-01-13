@@ -1,0 +1,47 @@
+\documentclass[aps,prl,onecolumn,superscriptaddress]{revtex4-2}
+\usepackage{amsmath,amssymb}
+
+\begin{document}
+
+\title{Supplementary Note: Algebraic Invariance of the $K=4$ Safe Window}
+\date{\today}
+
+\maketitle
+
+\section{Derivation of the Invariant Set}
+
+We examine the stability of the fiber-coupled cycle $\mathcal{C} = \{1, 4, 2\}$ under the skew-product map $T$. We define the "Safe Window" $\mathcal{W}_K$ as the set of fiber values $n$ that result in a zero coupling term $c$ when the base $w=1$.
+
+\subsection{Lemma 1: The Carry Gate Condition}
+For a trajectory at $w_t=1$ to map to $w_{t+1}=4$ (remaining on the cycle), the update rule $w_{t+1} = 3(1) + 1 + c$ requires $c=0$.
+Given the coupling definition $c = \lfloor Kn/p \rfloor$, this imposes the strict inequality:
+\begin{equation}
+    c = 0 \iff Kn < p \iff 0 \le n \le \frac{p-1}{K}
+\end{equation}
+We define this range $\mathcal{W}_K = [0, (p-1)/K]$ as the \textbf{Safe Window}. If $n_t \notin \mathcal{W}_K$ when $w_t=1$, the trajectory is immediately expelled from $\mathcal{C}$.
+
+\subsection{Lemma 2: The Conditional Return Map}
+Assuming a trajectory resides on the cycle $\{1, 4, 2\}$ for a full period ($t \to t+3$), the fiber $n$ transforms as:
+\begin{enumerate}
+    \item $w: 1 \to 4 \implies n \mapsto Kn \pmod p$ (Valid if $c=0$)
+    \item $w: 4 \to 2 \implies n \mapsto n \cdot 2^{-1} \pmod p$
+    \item $w: 2 \to 1 \implies n \mapsto n \cdot 2^{-1} \pmod p$
+\end{enumerate}
+The cumulative return map $R_K(n)$ is the composition:
+\begin{equation}
+    R_K(n) \equiv n \cdot K \cdot \frac{1}{4} \equiv \frac{K}{4} n \pmod p
+\end{equation}
+
+\subsection{Theorem: Existence of Invariant Set for $K=4$}
+For the specific case $K=4$, we demonstrate that $\mathcal{W}_4$ is an invariant set.
+
+\begin{enumerate}
+    \item \textbf{Identity Return:} With $K=4$, the return map becomes $R_4(n) \equiv n \pmod p$. Thus, if $n_0 \in \mathcal{W}_4$, then $n_{3} = n_0$. The fiber value is periodic with period 3.
+    \item \textbf{Gate Satisfaction:} For any $n \in \mathcal{W}_4$, we have $Kn < p$. Consequently, at the odd step ($w=1$), the fiber maps to $4n$ without modular wraparound. The carry is $c = \lfloor 4n/p \rfloor = 0$.
+\end{enumerate}
+Therefore, any trajectory initialized with $w_0=1$ and $n_0 \in \mathcal{W}_4$ satisfies the gate condition at $t=0$ and, due to the identity return map, satisfies it for all future returns $t=3k$. This proves the existence of a non-trivial invariant set.
+
+\subsection{Sieve Constraint for $K \neq 4$}
+For $K \neq 4$, the return map $R_K(n) \equiv \frac{K}{4}n$ is a non-identity permutation of $\mathbb{Z}_p^\times$. The Safe Window $\mathcal{W}_K$ is not invariant under $R_K$ in general. Long-term survival requires the trajectory to satisfy the recurrence $R_K^k(n_0) \in \mathcal{W}_K$ for all $k \ge 1$. This constitutes a \textbf{Sieve Constraint}. In our computations (using $p \approx 10^9$ and $N=60$ steps), no trajectories satisfied this constraint for tested values $K \in \{2, 3, 5, 6, 8, 16\}$, resulting in observed extinction.
+
+\end{document}
